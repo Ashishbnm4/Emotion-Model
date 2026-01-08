@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import joblib
 
 app = Flask(__name__)
@@ -14,16 +14,16 @@ def recommend_task(emotion):
     else:
         return "Light workload, stress management, or support tasks"
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    data = request.get_json()
-    text = data.get("text")
+@app.route("/", methods=["GET", "POST"])
+def home():
+    emotion = None
+    task = None
 
-    vec = vectorizer.transform([text])
-    emotion = model.predict(vec)[0]
-    task = recommend_task(emotion)
+    if request.method == "POST":
+        text = request.form.get("text")
+        if text:
+            vec = vectorizer.transform([text])
+            emotion = model.predict(vec)[0]
+            task = recommend_task(emotion)
 
-    return jsonify({
-        "emotion": emotion,
-        "task": task
-    })
+    return render_template("index.html", emotion=emotion, task=task)
