@@ -1,1 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI-Powered Task Optimizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>AI-Powered Task Optimizer</h1>
+
+<form method="POST">
+    <textarea name="text" placeholder="How are you feeling today?" required></textarea>
+    <br><br>
+    <button type="submit">Analyze Mood</button>
+</form>
+
+{% if emotion %}
+    <h2>Detected Emotion: {{ emotion }}</h2>
+    <h3>Recommended Task: {{ task }}</h3>
+{% endif %}
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
 
